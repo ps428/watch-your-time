@@ -2,6 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const todayBtn = document.getElementById("todayBtn");
   const weekBtn = document.getElementById("weekBtn");
+  const exportBtn = document.getElementById("exportBtn");
   const clearBtn = document.getElementById("clearBtn");
   const statsHeader = document.getElementById("statsHeader");
   const todayStats = document.getElementById("todayStats");
@@ -20,6 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     currentView = "week";
     updateActiveButton();
     loadData();
+  });
+
+  exportBtn.addEventListener("click", () => {
+    exportData();
   });
 
   clearBtn.addEventListener("click", () => {
@@ -46,6 +51,34 @@ document.addEventListener("DOMContentLoaded", () => {
       displayStats(processedData);
       displayChart(processedData);
     });
+  }
+
+  function exportData() {
+    browser.storage.local.get(null).then((data) => {
+      const processedData = processData(data);
+      const csv = convertToCSV(processedData);
+      downloadCSV(csv);
+    });
+  }
+
+  function convertToCSV(data) {
+    let csv = "Website,Time Spent \n";
+    for (const [domain, time] of Object.entries(data)) {
+      const hours = Math.floor(time / 3600000);
+      const minutes = Math.floor((time % 3600000) / 60000);
+      const seconds = Math.floor((time % 60000) / 1000);
+      csv += `${domain},${hours} hour(s) ${minutes} minute(s) ${seconds} second(s)\n`;
+    }
+    return csv;
+  }
+
+  function downloadCSV(csv) {
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    timestamp = Date.now();
+    link.download = `watch-your-time-${timestamp}.csv`;
+    link.click();
   }
 
   function processData(rawData) {

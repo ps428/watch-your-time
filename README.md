@@ -8,6 +8,7 @@ A simple, privacy-focused Firefox add-on that tracks time spent on websites. No 
 - **Automatic Time Tracking** - Tracks time spent on each website automatically
 - **Privacy First** - All data stored locally in your browser, never sent anywhere
 - **Clean Dashboard** - View your top 5 most visited sites with visual bar charts, no external lib used
+- **Export** - Added a quick export as CSV file. Could be useful for AI analysis.
 - **Easy Reset** - Clear all data with one click, just in case...
 
 ## Installation (for devs)
@@ -26,6 +27,7 @@ Simply install the extension and browse normally! Click the extension icon in yo
 - Time spent on your most visited websites
 - Visual bar chart showing relative time distribution
 - Toggle between daily and weekly views
+- Export data as CSV file
 - Clear all data when needed
 
 
